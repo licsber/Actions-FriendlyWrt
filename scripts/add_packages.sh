@@ -32,3 +32,11 @@ function init_theme() {
 EOL
 sed -i -e '/boardname=/r /tmp/appendtext.txt' friendlywrt/target/linux/rockchip/armv8/base-files/root/setup.sh
 # }}
+
+# {{ Add helloworld
+(cd friendlywrt/package && {
+    [ -d helloworld ] && rm -rf helloworld
+    git clone https://github.com/fw876/helloworld.git --depth 1 -b master
+})
+echo "CONFIG_PACKAGE_luci-app-ssr-plus=y" >> configs/rockchip/01-nanopi
+# }}
