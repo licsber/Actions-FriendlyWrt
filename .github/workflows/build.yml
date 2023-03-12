@@ -11,8 +11,8 @@ jobs:
     - name: Get release tag
       id: release_tag
       run: |
-        release_tag="FriendlyWrt-$(date +%Y-%m-%d)"
-        echo "##[set-output name=release_tag;]$release_tag"
+        release_tag="LicsberR6s-$(date +%F-%H%M-CST)"
+        echo "{release_tag}={$release_tag}" >> $GITHUB_OUTPUT
 
     - name: Create empty release
       id: release
@@ -101,7 +101,7 @@ jobs:
         cd project/friendlywrt
         mkdir -p staging_dir/host/llvm-bpf/bin/
         ln -s /usr/bin/clang-12 staging_dir/host/llvm-bpf/bin/clang
-        make download -j1 V=s
+        make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
@@ -128,7 +128,7 @@ jobs:
         rootfs_filename="rootfs-friendlywrt-${{ matrix.VERSION }}${SUFFIX}.tgz"
         tar cvzf ../artifact/${rootfs_filename} ${FRIENDLYWRT_SRC}/${FRIENDLYWRT_ROOTFS} \
               ${FRIENDLYWRT_SRC}/${FRIENDLYWRT_PACKAGE_DIR}
-        echo "##[set-output name=rootfs_filename;]$rootfs_filename"
+        echo "{rootfs_filename}={$rootfs_filename}" >> $GITHUB_OUTPUT
 
     - name: Upload rootfs package
       uses: svenstaro/upload-release-action@v2
@@ -243,7 +243,7 @@ jobs:
         TARGET_FRIENDLYWRT_CONFIG=${CONFIG}
         TARGET_SD_RAW_FILENAME=${FILENAME}
         EOL
-        echo "##[set-output name=img_filename;]$FILENAME"
+        echo "{img_filename}={$FILENAME}" >> $GITHUB_OUTPUT
 
     - name: Unpack friendlywrt rootfs
       run: |
