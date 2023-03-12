@@ -64,6 +64,7 @@ echo "CONFIG_PACKAGE_luci-app-mwan3helper=y" >> configs/rockchip/01-nanopi
 ## {{ 开发
 echo "CONFIG_PACKAGE_htop=y" >> configs/rockchip/01-nanopi
 echo "CONFIG_PACKAGE_ffmpeg=y" >> configs/rockchip/01-nanopi
+echo "CONFIG_PACKAGE_ffprobe=y" >> configs/rockchip/01-nanopi
 echo "CONFIG_PACKAGE_golang=y" >> configs/rockchip/01-nanopi
 echo "CONFIG_PACKAGE_python3-pip=y" >> configs/rockchip/01-nanopi
 ## }}
