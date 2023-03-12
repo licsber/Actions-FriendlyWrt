@@ -40,3 +40,11 @@ sed -i -e '/boardname=/r /tmp/appendtext.txt' friendlywrt/target/linux/rockchip/
 })
 echo "CONFIG_PACKAGE_luci-app-ssr-plus=y" >> configs/rockchip/01-nanopi
 # }}
+
+## {{ Add ddns-scripts-cloudflare
+echo "CONFIG_PACKAGE_ddns-scripts-cloudflare=y" >> configs/rockchip/01-nanopi
+# }}
+
+## {{ Add wireguard
+echo "CONFIG_PACKAGE_luci-app-wireguard=y" >> configs/rockchip/01-nanopi
+# }}
