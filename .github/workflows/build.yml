@@ -59,7 +59,7 @@ jobs:
         mkdir -p ./artifact
         sudo swapoff -a
         sudo rm -rf /usr/share/dotnet /usr/local/lib/android/sdk /usr/local/share/boost /opt/ghc
-        sudo apt install -y clang
+        sudo apt install -y clang-12 llvm-12
         echo "cores: $(nproc)"
 
     - name: Download source
