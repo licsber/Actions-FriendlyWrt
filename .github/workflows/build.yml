@@ -12,7 +12,7 @@ jobs:
       id: release_tag
       run: |
         release_tag="LicsberR6s-$(date +%F-%H%M-CST)"
-        echo "{release_tag}={$release_tag}" >> $GITHUB_OUTPUT
+        echo "release_tag=$release_tag" >> $GITHUB_OUTPUT
 
     - name: Create empty release
       id: release
@@ -128,7 +128,7 @@ jobs:
         rootfs_filename="rootfs-friendlywrt-${{ matrix.VERSION }}${SUFFIX}.tgz"
         tar cvzf ../artifact/${rootfs_filename} ${FRIENDLYWRT_SRC}/${FRIENDLYWRT_ROOTFS} \
               ${FRIENDLYWRT_SRC}/${FRIENDLYWRT_PACKAGE_DIR}
-        echo "{rootfs_filename}={$rootfs_filename}" >> $GITHUB_OUTPUT
+        echo "rootfs_filename=$rootfs_filename" >> $GITHUB_OUTPUT
 
     - name: Upload rootfs package
       uses: svenstaro/upload-release-action@v2
@@ -243,7 +243,7 @@ jobs:
         TARGET_FRIENDLYWRT_CONFIG=${CONFIG}
         TARGET_SD_RAW_FILENAME=${FILENAME}
         EOL
-        echo "{img_filename}={$FILENAME}" >> $GITHUB_OUTPUT
+        echo "img_filename=$FILENAME" >> $GITHUB_OUTPUT
 
     - name: Unpack friendlywrt rootfs
       run: |
