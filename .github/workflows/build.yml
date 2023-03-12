@@ -59,6 +59,7 @@ jobs:
         mkdir -p ./artifact
         sudo swapoff -a
         sudo rm -rf /usr/share/dotnet /usr/local/lib/android/sdk /usr/local/share/boost /opt/ghc
+        sudo apt install -y clang
         echo "cores: $(nproc)"
 
     - name: Download source
@@ -98,7 +99,7 @@ jobs:
     - name: Download package
       run: |
         cd project/friendlywrt
-        make download -j1 V=s
+        make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
