@@ -99,6 +99,8 @@ jobs:
     - name: Download package
       run: |
         cd project/friendlywrt
+        mkdir -p staging_dir/host/llvm-bpf/bin/
+        ln -s /usr/bin/clang-12 staging_dir/host/llvm-bpf/bin/clang
         make download -j1 V=s
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
