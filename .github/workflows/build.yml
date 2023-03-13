@@ -260,6 +260,7 @@ jobs:
     - name: Build eMMC image
       id: build_emmc_image
       run: |
+        sudo apt install -y exfat-fuse
         cd project
         ./build.sh emmc-img
         mv out/${{ steps.config.outputs.img_filename }} ../artifact/
