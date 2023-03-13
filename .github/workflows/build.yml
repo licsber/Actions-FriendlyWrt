@@ -59,7 +59,6 @@ jobs:
         git clone https://github.com/friendlyarm/repo
         sudo -E cp repo/repo /usr/bin/
         mkdir -p ./artifact
-        sudo swapoff -a
         sudo rm -rf /usr/share/dotnet /usr/local/lib/android/sdk /usr/local/share/boost /opt/ghc
         sudo apt install -y clang-12 llvm-12
         sudo apt clean
