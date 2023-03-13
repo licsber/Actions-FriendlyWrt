@@ -89,6 +89,7 @@ jobs:
     - name: Prepare dot config and feeds
       run: |
         cd project
+        export GIT_SSL_NO_VERIFY=1
         [ "${{ matrix.SET }}" == "docker" ] && SUFFIX="-docker"
         DIRNAME=friendlywrt$(echo ${{ matrix.VERSION }}|awk -F . '{print $1}')${SUFFIX}
         CONFIG=rockchip${SUFFIX}
