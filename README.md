@@ -1,4 +1,9 @@
 # 使用 GitHub Actions 编译 FriendlyWrt
+
+registry.cn-beijing.aliyuncs.com/licsber/rockchip
+
+https://cr.console.aliyun.com/repository/cn-beijing/licsber/rockchip/build
+
 [English](README_en.md)
 ### 基本信息 
 - 用户名：root
