@@ -1,0 +1,66 @@
+FROM registry.cn-beijing.aliyuncs.com/licsber/rockchip:ubuntu2004-230313
+
+RUN rm -rf /etc/apt/sources.list.d && \
+    apt update && apt install -y wget && \
+    wget https://raw.githubusercontent.com/friendlyarm/build-env-on-ubuntu-bionic/master/install.sh && \
+    sed -i -e 's/^apt-get -y install openjdk-8-jdk/# apt-get -y install openjdk-8-jdk/g' install.sh && \
+    sed -i -e 's/^\[ -d fa-toolchain \]/# [ -d fa-toolchain ]/g' install.sh && \
+    sed -i -e 's/^cat fa-toolchain/# cat fa-toolchain/g' install.sh && \
+    sed -i -e 's/^tar xf fa-toolchain/# tar xf fa-toolchain/g' install.sh && \
+    bash install.sh && \
+    update-alternatives --install $(which python) python /usr/bin/python2.7 20 && \
+    git clone https://github.com/friendlyarm/repo && \
+    cp repo/repo /usr/bin/ && \
+    mkdir -p ./artifact && \
+    rm -rf /usr/share/dotnet /usr/local/lib/android/sdk /usr/local/share/boost /opt/ghc && \
+    apt install -y clang-12 llvm-12 && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    echo "cores: $(nproc)"
+
+RUN mkdir project && cd project && \
+    repo init --depth=1 -u https://github.com/friendlyarm/friendlywrt_manifests -b master-v22.03 \
+      -m rk3399.xml --repo-url=https://github.com/friendlyarm/repo  --no-clone-bundle && \
+    repo sync -c friendlywrt --no-clone-bundle && \
+    repo sync -c configs --no-clone-bundle && \
+    repo sync -c device/common --no-clone-bundle && \
+    repo sync -c device/friendlyelec --no-clone-bundle && \
+    repo sync -c scripts --no-clone-bundle && \
+    repo sync -c scripts/sd-fuse  --no-clone-bundle && \
+    repo sync -c toolchain  --no-clone-bundle
+
+RUN git clone https://github.com/licsber/R6s.git --depth 1 && \
+    cd project && \
+    bash ../R6s/scripts/add_packages.sh && \
+    bash ../R6s/scripts/custome_config.sh
+
+RUN cd project && \
+    git config --global user.name 'licsber' && \
+    git config --global user.email 'noreply@licsber.site' && \
+    SUFFIX='-docker' \
+    DIRNAME=friendlywrt$(echo 22.03 |awk -F . '{print $1}')${SUFFIX} && \
+    CONFIG=rockchip && \
+    echo '. device/friendlyelec/rk3399/base.mk' >> .current_config.mk && \
+    echo "TARGET_IMAGE_DIRNAME=${DIRNAME}" >> .current_config.mk && \
+    echo "TARGET_FRIENDLYWRT_CONFIG=${CONFIG}" >> .current_config.mk && \
+    DEBUG_DOT_CONFIG=1 ./build.sh friendlywrt
+
+RUN cd project/friendlywrt && \
+    mkdir -p staging_dir/host/llvm-bpf/bin/ && \
+    ln -s /usr/bin/clang-12 staging_dir/host/llvm-bpf/bin/clang && \
+    make download -j1 V=s && \
+    find dl -size -1024c -exec ls -l {} \; && \
+    find dl -size -1024c -exec rm -f {} \;
+
+RUN cd project/friendlywrt && \
+    export FORCE_UNSAFE_CONFIGURE=1 && \
+    make -j$(nproc) || make -j1 V=s && \
+    echo $?
+
+RUN cd project && \
+    source .current_config.mk && \
+    SUFFIX='-docker' && \
+    rootfs_filename="rootfs-friendlywrt-22.03${SUFFIX}.tgz" && \
+    tar cvzf ../artifact/${rootfs_filename} ${FRIENDLYWRT_SRC}/${FRIENDLYWRT_ROOTFS} \
+      ${FRIENDLYWRT_SRC}/${FRIENDLYWRT_PACKAGE_DIR} && \
+    echo "$rootfs_filename"
