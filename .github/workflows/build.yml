@@ -5,7 +5,7 @@ permissions:
   contents: write
 jobs:
   prepare_release:
-    runs-on: ubuntu-20.04
+    runs-on: self-hosted
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
     - name: Get release tag
