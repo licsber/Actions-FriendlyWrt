@@ -40,4 +40,11 @@ sed -i -e '/boardname=/r /tmp/appendtext.txt' friendlywrt/target/linux/rockchip/
     [ -d helloworld ] && rm -rf helloworld
     git clone https://github.com/fw876/helloworld.git --depth 1 -b master
 })
+echo "CONFIG_PACKAGE_luci-app-ssr-plus=y" >> configs/rockchip/01-nanopi
+# }}
+
+# {{ 其他
+echo "CONFIG_PACKAGE_htop=y" >> configs/rockchip/01-nanopi
+echo "CONFIG_PACKAGE_ddns-scripts-cloudflare=y" >> configs/rockchip/01-nanopi
+echo "CONFIG_PACKAGE_luci-app-wireguard=y" >> configs/rockchip/01-nanopi
 # }}
