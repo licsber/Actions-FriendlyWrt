@@ -258,12 +258,12 @@ jobs:
         ./build.sh kernel
         ./build.sh uboot
 
-    - name: Build eMMC image
-      id: build_emmc_image
+    - name: Build sd image
+      id: build_sd_image
       run: |
         sudo apt install -y exfat-fuse
         cd project
-        ./build.sh emmc-img
+        ./build.sh sd-img
         mv out/${{ steps.config.outputs.img_filename }} ../artifact/
         cd ../artifact/
         gzip *.img
