@@ -262,7 +262,6 @@ jobs:
     - name: Build sd image
       id: build_sd_image
       run: |
-        sudo apt install -y exfat-fuse
         cd project
         ./build.sh sd-img
         mv out/${{ steps.config.outputs.img_filename }} ../artifact/
