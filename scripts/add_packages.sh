@@ -44,7 +44,10 @@ echo "CONFIG_PACKAGE_luci-app-ssr-plus=y" >> configs/rockchip/01-nanopi
 # }}
 
 # {{ 其他
+echo "CONFIG_PACKAGE_screen=y" >> configs/rockchip/01-nanopi
 echo "CONFIG_PACKAGE_htop=y" >> configs/rockchip/01-nanopi
+echo "CONFIG_PACKAGE_docker-compose=y" >> configs/rockchip/01-nanopi
+
 echo "CONFIG_PACKAGE_ddns-scripts-cloudflare=y" >> configs/rockchip/01-nanopi
 echo "CONFIG_PACKAGE_luci-app-wireguard=y" >> configs/rockchip/01-nanopi
 # }}
