@@ -1,4 +1,9 @@
 on:
+  schedule:
+    - cron: '46 */8 * * *'
+  push:
+    branches: [ 'master' ]
+    tags: [ 'v*.*.*' ]
   watch:
     types: started
 permissions:
